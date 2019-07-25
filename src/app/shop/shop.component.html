@@ -1,0 +1,67 @@
+
+<div style="float:left;width: 50%">
+
+<div *ngIf="resultStatus">Updated Successfully</div>
+
+ 
+<form #data="ngForm" (ngSubmit)="updateShopDetails(data,template)" >
+   
+   
+    <div class="row col-sm-7" *ngFor="let emp of employeeData1">
+    	
+    	 <div class="form-group">
+    	 
+    		<label for="email">Name:</label>
+    		<input type="text" class="form-control" name="shop_name" id="shop_name" #shop_name="ngModel" [(ngModel)]="employeeData1[0].shop_name" autocomplete="off">
+    	
+    		<input type="hidden" class="form-control" name="shop_id" id="shop_id" [(ngModel)]="emp.shop_id"  autocomplete="off">
+    	
+  		</div>
+  	
+  	
+ 
+		 <div class="form-group">
+    	 
+    		<label for="email">Address:</label>
+    	
+    		<textarea name="shop_add" id="shop_add" class="form-control" [(ngModel)]="emp.shop_add"></textarea>
+    	
+    	
+  		</div>
+    
+  		 <div class="form-group">
+    	 
+    		<label for="email">GST No:</label>
+    		<input type="text" class="form-control" name="shop_gst_no" id="shop_gst_no" [(ngModel)]="emp.shop_gst_no"  autocomplete="off">
+    	
+    		
+  		</div>
+  	
+  	
+  	
+  	<div class="col-sm-7">
+   
+    	 <button type="submit" class="btn btn-success">Submit</button>
+  	</div>
+    	
+    	
+    </div>
+   
+  
+     
+
+    </form>
+ 
+</div>
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+

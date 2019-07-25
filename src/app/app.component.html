@@ -1,0 +1,171 @@
+<!--<header-menu></header-menu>-->
+
+ <div class="wrapper" *ngIf="loginStatus">
+        <!-- Sidebar  -->
+        
+       
+        
+      
+        
+        		<nav id="sidebar" [ngClass]="{ 'active': isIn }" >
+            <div class="sidebar-header">
+                <h6>{{loginName}}</h6>
+            </div>
+
+            <ul class="list-unstyled components">
+             
+              <li routerLinkActive="active"><a routerLink="home">Home</a></li>
+              <li routerLinkActive="active"><a routerLink="DWR" [routerLinkActive]="['active']">D.W.R</a></li>
+              <li routerLinkActive="active"><a routerLink="checkReport">Check Report</a></li>
+              <li routerLinkActive="active"><a >Rejected Report</a></li>
+              <li ><a routerLink="ViewOrder" >Old Report </a></li>
+              <li class="active">
+                    <a  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" (click)="toggleHome()">Other</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu" [class.show]="show">
+                        <li>
+                            <a href="#">Farmer Report</a>
+                        </li>
+                        <li>
+                            <a href="#">Dealer Report</a>
+                        </li>
+                        <li>
+                            <a href="#">Expence Report</a>
+                        </li>
+                    </ul>
+                </li>
+                
+                <!--
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Portfolio</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+                -->
+                <li ><a (click)="logout()">Logout</a></li>
+            </ul>
+
+           
+        </nav>
+	
+        <!-- Page Content  -->
+        <div id="content">
+        <nav class="navbar navbar-static-top navbar-fixed-top navbar-transparent-black mm-fixed-top" style="background-color: #7386D5">
+      <!-- Sidebar toggle button-->
+      
+       <button type="button" id="sidebarCollapse" class="btn btn-info" (click)="toggleState()" style="margin: 0px;padding: 0px;width: 20px">
+                        <i class="fas fa-align-left"></i>
+         </button>
+   
+
+
+<!--
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+			<li class="dropdown user user-menu">
+         		<a class="dropdown-toggle options" data-toggle="dropdown" href="#" style="color:#333">
+
+                &nbsp;&nbsp; <i class="fa fa-caret-down"></i>
+
+                </a>
+				<ul class="dropdown-menu arrow settings"> 
+                  <li>
+                    <a href="logout.php"><i class=""></i>  Logout  </a>
+                  </li>
+          
+            </ul>
+          </li>
+
+
+        </ul>
+      </div>
+      -->
+      
+    </nav>
+			
+          			<router-outlet></router-outlet>
+          			
+          			
+           
+        </div>
+    </div>
+    
+    <div *ngIf="!loginStatus" >
+    
+    		
+    		<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-heading">
+				<h2 class="text-center">Employee Login</h2>
+			</div>
+			<hr />
+			<div class="modal-body">
+			{{lastname}}
+				<form action="" role="form" method="post" (ngSubmit)="onSubmit($event)">
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon">
+							<span class="glyphicon glyphicon-user"></span>
+							</span>
+							<input type="text" class="form-control" placeholder="User Name" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon">
+							<span class="glyphicon glyphicon-lock"></span>
+							</span>
+							<input type="password" class="form-control" placeholder="Password" />
+
+						</div>
+
+					</div>
+
+					<div class="form-group text-center">
+						<button type="submit" class="btn btn-success btn-lg">Login</button>
+					<!--	<a href="#" class="btn btn-link">forget Password</a> -->
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+  
+
+<!--<div  *ngIf="!loginStatus">
+
+<app-login (LoginStatusChange)="LoginStatusHandler($event)"></app-login>
+</div>-->

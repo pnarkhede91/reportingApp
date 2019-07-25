@@ -1,0 +1,156 @@
+
+
+
+
+<div style="float:left;width: 50%">
+ 
+
+  
+<div class="form-group col-sm-12" style="background-color:#D4EDDA;padding:10px;">
+
+		<h4>Create New Order</h4>
+		<form #searchData="ngForm" (ngSubmit)="saveToCart(searchData)" novalidate>
+			
+			
+				<div class="col-sm-12">
+				<br>
+				</div>
+					
+				<div class="col-sm-12">	
+
+					<div class="col-sm-3">
+
+								<select class="form-control"  name="comp_id" id="comp_id" ngModel #comp_id="ngModel" (change)="changeProduct(comp_id.value)" required>
+									<option value="" [selected]="tcompany_id==''">Select Company</option>
+									<option *ngFor="let country of companyList" value= "{{country.comp_id}}">
+													 {{country.comp_name}}
+									</option>
+							</select>
+							
+							
+					</div>
+
+					<div class="col-sm-3">
+								<select class="form-control"  name="product_id" id="product_id" ngModel #product_id="ngModel" required>
+									<option value="" [selected]="tproduct_id==''">Select Product</option>
+									<option *ngFor="let product of productList" value= "{{product.product_id}}">
+													 {{product.product_name}}
+									</option>
+								</select>
+								
+							
+					</div>
+
+					<div class="col-sm-3">
+								<input type="text" class="form-control" name="qty" id="qty" ngModel  #qty="ngModel"  required/>
+							
+					</div>
+
+
+					  <div class="col-sm-3">
+
+							 <input class="form-control" id="inputdefault" value="ADD" type="submit" [disabled]="!searchData.valid"> &nbsp;&nbsp;&nbsp;
+
+					  </div>
+					  
+			</div>
+
+		</form> 
+	</div>
+	<br>
+<table width="100%" border="1" style="border-collapse: collapse;" >
+	  <tbody>
+		<tr bgcolor="#000000" style="color: white;padding: 10px">
+		  <td>Id</td>
+		  <td>Product Name</td>
+		  <td>Company Name</td>
+		   <td>Qty</td>
+		   <td>Rate</td>
+		    <td>Total</td>
+		  <td>Action</td>
+
+		</tr>
+		
+		<tr *ngFor="let tc of tempCart;let i = index" [attr.data-index]="i">
+		  <td>{{i+1}}</td>
+		  <td>{{tc.product_name}}</td>
+		  <td>{{tc.comp_name}}</td>
+		  <td>{{tc.temp_qty}}</td>
+		  <td>{{tc.product_rate}}</td>
+		  <td>{{tc.product_rate * tc.temp_qty}}</td>
+		  <td>
+		  <a (click)="removeCartData(tc.temp_ord_id)">Delete</a></td>
+
+		</tr>
+   
+   		<tr *ngIf="tempCart?.lenght < 0">
+		  <td colspan="7">{{msg}}</td>
+		 
+		</tr>
+    
+    		
+
+    </tbody>
+    
+     
+  </table>
+<br><br>
+
+
+
+
+		
+	<div *ngIf="tempCart?.length > 0" class="form-group col-sm-12" style="background-color:#D4EDDA;padding:10px;">
+<form #orderOwner="ngForm" (ngSubmit)="saveOrder(orderOwner)" novalidate >
+		<div class="col-sm-12">	
+
+					<div class="col-sm-6">
+
+								<input type="text" class="form-control" placeholder="Customer Name" name="customer_name" id="customer_name" ngModel #customer_name="ngModel"  autocomplete="off"/>
+							
+							
+					</div>
+
+					<div class="col-sm-4">
+								<input type="text" class="form-control" placeholder="Customer Mobile number" name="customer_mobile" id="customer_mobile" ngModel #customer_mobile="ngModel"  autocomplete="off"/>
+					</div>
+					
+	</div>
+		<div class="col-sm-12">	
+	
+	<br>
+	
+	</div>
+	
+		<div class="col-sm-12">	
+					  
+						  <div class="col-sm-4">
+						  		&nbsp;
+						  </div>
+
+						 <div class="col-sm-3">
+
+									 <input class="form-control" id="inputdefault" value="Save Order" type="submit"> &nbsp;&nbsp;&nbsp;
+
+						</div>
+
+						<div class="col-sm-3">
+
+														 <input class="form-control" id="inputdefault" value="Clear Order" type="button"> &nbsp;&nbsp;&nbsp;
+
+						</div>
+
+
+		</div>
+		 </form>  
+	</div>
+	
+      
+</div>
+ 
+
+
+
+
+
+

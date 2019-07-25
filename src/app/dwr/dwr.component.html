@@ -1,0 +1,325 @@
+ 
+  <div class="text-center">
+	<label class="radio-inline"><input type="radio" name="optradio" checked style="transform:scale(2)" (click)="openTabFunction('FARMER')">&nbsp;&nbsp;Farmer</label>&nbsp;&nbsp;
+	<label class="radio-inline"><input type="radio" name="optradio" style="transform:scale(2)" (click)="openTabFunction('DEALER')">&nbsp;&nbsp;Dealer</label>&nbsp;&nbsp;
+	<label class="radio-inline"><input type="radio" name="optradio" style="transform:scale(2)" (click)="openTabFunction('EXPENCE')">&nbsp;&nbsp; Expences</label>
+  </div>
+  
+
+  
+  <div class="container" *ngIf="openTab=='FARMER'">
+
+  <h5>Farmer Record  <button class="btn btn-primary btn-sm" (click)="addFarmerRecord(template1)" style="float:right">New </button></h5>
+            
+  <table class="table table-bordered table-sm" style="text-align: left">
+    <thead>
+      <tr class="alert alert-success">
+       <th>Id</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Action</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+   
+     <tr *ngFor="let farmer of tempFarmerRecord;let i = index" [attr.data-index]="i">
+		  <td>{{i+1}}</td>
+		  <td>{{farmer.farmer_name}}</td>
+		  <td>{{farmer.mobile_no}}</td>
+		  <td><a (click)="updateFarmerRecord(farmer,template)">Edit</a>&nbsp; | &nbsp;
+		  <a (click)="RemoveFarmerRecord(farmer.tempf_id)" >Delete</a></td>
+
+		</tr>
+		
+		<tr>
+			<td colspan="5">  
+			
+			<input type="text" class="form-control col-md-3" name="reportDate" #reportDate1  bsDatepicker [bsConfig]="{dateInputFormat: 'YYYY-MM-DD'}"  autocomplete="off"><br>
+
+  			<button class="btn btn-primary" (click)="submitFarmerData(reportDate1.value)" >Sumbmit Record </button>
+  			
+  			</td>
+		</tr>
+   
+    </tbody>
+  </table>
+  
+  <ng-template #template1>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Enter Farmer Data</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+ 
+    <form #farmerForm="ngForm" (ngSubmit)="farmerRecordEntry(farmerForm)">
+    
+    <div class="form-group">
+		
+		<input type="text" class="form-control form-control-sm" name="farmer_name" placeholder="Farmer Name" required [(ngModel)]="farmer_name" #farmer_name1="ngModel">
+		<div *ngIf="farmer_name1.errors && farmer_name1.touched" style="color: red">
+				<div [hidden]="!farmer_name1.errors.required">
+				Farmer Name is required!
+				</div>
+		</div>
+		
+  	</div>
+  	<div class="form-group">
+		
+		<input type="text" class="form-control form-control-sm" name="mobile_no" placeholder="Mobile No" required [(ngModel)]="mobile_no" #mobile_no1="ngModel" (keypress)="keyPress($event)" minlength="10" maxlength="10">
+		
+		<div *ngIf="mobile_no1.errors && mobile_no1.touched" style="color: red">
+				<div [hidden]="!mobile_no1.errors?.minlength">
+				Check Farmer Mobile No!
+				</div>
+				
+				<div [hidden]="!mobile_no1.errors.required ">
+				 Farmer Mobile No Is Required
+				</div>
+		</div>
+  	</div>
+  	<div class="form-group">
+		
+		
+		<select class="form-control form-control-sm" placeholder="Select District" name="dt_id"  ngModel #dt_id="ngModel" (change)="changeDistrict(dt_id.value)">
+			<option value="">Select District</option>
+			<option *ngFor="let district of districtList" value="{{district.dt_id}}" >{{district.dt_district}}</option>
+		</select>
+		
+		<div *ngIf="dt_id.errors && dt_id.touched" style="color: red">
+				<div [hidden]="!dt_id.errors.required">
+				Farmer District is required!
+				</div>
+		</div>
+  	</div>
+  	<div class="form-group">
+		
+		<select class="form-control form-control-sm" name="tt_id" placeholder="Select Taluka"  ngModel #tt_id="ngModel" (change)="changeTaluka(tt_id.value)">
+			<option value="">Select Taluka</option>
+			<option *ngFor="let taluka of talukaList" value="{{taluka.tt_id}}">{{taluka.tt_taluka}}</option>
+		</select>
+		
+  	</div>
+  	<div class="form-group">
+	
+		<select class="form-control" name="pt_id" ngModel #pt_id="ngModel" placeholder="Select Place">
+			<option value="">Select Place</option>
+			<option *ngFor="let place of placeList" value="{{place.pt_id}}">{{place.pt_place}}</option>
+		</select>
+  	</div>
+  	<div class="form-group">
+	
+		<select class="form-control form-control-sm" name="fk_crop_id" ngModel #fk_crop_id="ngModel" placeholder="Select Crop">
+			<option value="">Select Crop</option>
+			<option *ngFor="let crop of cropList" value="{{crop.crop_id}}">{{crop.crop_name}}</option>
+		</select>
+  	</div>
+  	
+  	<div class="form-group">
+		
+			<input type="text" class="form-control form-control-sm" name="acarage" placeholder="Select Acarage">
+  	</div>
+  	
+  	<div class="form-group">
+		
+		<select class="form-control form-control-sm" name="follow_up" ngModel #follow_up="ngModel" placeholder="Follow Up Status">
+			<option value="">Follow Up</option>
+			<option value="Yes">Yes</option>
+			<option value="No">No</option>
+		</select>
+		
+  	</div>
+  	
+  	<div class="form-group" [hidden]="follow_up.value=='No'">
+		
+		<!--	<input type="text" class="form-control form-control-sm" name="follow_up_date" id="follow_up_date" placeholder="Follow Up Date" #follow_up_date="ngModel" ngModel bsDatepicker [(bsValue)]="newValue" value="{{ newValue | date:'yyyy-MM-dd' }}" autocomplete="off"> -->
+		
+		<input type="text" class="form-control form-control-sm" name="follow_up_date" id="follow_up_date" placeholder="Follow Up Date:YYYY-mm-dd" #follow_up_date="ngModel" ngModel  autocomplete="off"> 
+  	</div>
+    
+    
+  	<div class="col-sm-7">
+
+    	 <button type="submit" [disabled]="!farmerForm.form.valid" class="btn btn-success">Submit</button>
+  	</div>
+  
+     
+
+    </form>
+</div>
+  </div>
+</ng-template>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Update Farmer Data</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+ 
+    <form #farmerForm="ngForm" (ngSubmit)="farmerRecordUpdate(farmerForm)">
+ 
+    <div class="form-group">
+    
+		<input type="hidden" name="tempf_id"   [(ngModel)]="selectedFarmer.tempf_id" #tempf_id="ngModel" />
+		<input type="text" class="form-control form-control-sm" name="farmer_name" placeholder="Farmer Name" required [(ngModel)]="selectedFarmer.farmer_name" #farmer_name1="ngModel">
+		<div *ngIf="farmer_name1.errors && farmer_name1.touched" style="color: red">
+				<div [hidden]="!farmer_name1.errors.required">
+				Farmer Name is required!
+				</div>
+		</div>
+		
+  	</div>
+  	<div class="form-group">
+		
+		<input type="text" class="form-control form-control-sm" name="mobile_no" placeholder="Mobile No" required [(ngModel)]="selectedFarmer.mobile_no" #mobile_no1="ngModel" (keypress)="keyPress($event)" minlength="10" maxlength="10" >
+		
+		<div *ngIf="mobile_no1.errors && mobile_no1.touched" style="color: red">
+				<div [hidden]="!mobile_no1.errors?.minlength">
+				Check Farmer Mobile No!
+				</div>
+				
+				<div [hidden]="!mobile_no1.errors.required ">
+				 Farmer Mobile No Is Required
+				</div>
+		</div>
+  	</div>
+  	<div class="form-group">
+		
+		
+		<select class="form-control form-control-sm" placeholder="Select District" name="dt_id" [(ngModel)]="selectedFarmer.dt_id"  ngModel #dt_id="ngModel" (change)="changeDistrict(dt_id.value)">
+			<option value="">Select District</option>
+			<option *ngFor="let district of districtList" value="{{district.dt_id}}" [selected]="selectedFarmer.dt_id==district.dt_id">{{district.dt_district}}</option>
+		</select>
+		
+		<div *ngIf="dt_id.errors && dt_id.touched" style="color: red">
+				<div [hidden]="!dt_id.errors.required">
+				Farmer District is required!
+				</div>
+		</div>
+  	</div>
+  	<div class="form-group">
+		
+		<select class="form-control form-control-sm" name="tt_id" placeholder="Select Taluka" [(ngModel)]="selectedFarmer.tt_id"  ngModel #tt_id="ngModel" (change)="changeTaluka(tt_id.value)">
+			<option value="">Select Taluka</option>
+			<option *ngFor="let taluka of talukaList" value="{{taluka.tt_id}}" [selected]="selectedFarmer.tt_id==taluka.tt_id">{{taluka.tt_taluka}}</option>
+		</select>
+		
+  	</div>
+  	<div class="form-group">
+	
+		<select class="form-control form-control-sm" name="pt_id" ngModel #pt_id="ngModel" placeholder="Select Place" [(ngModel)]="selectedFarmer.pt_id">
+			<option value="">Select Place</option>
+			<option *ngFor="let place of placeList" value="{{place.pt_id}}" [selected]="selectedFarmer.pt_id==place.pt_id">{{place.pt_place}}</option>
+		</select>
+  	</div>
+  	<div class="form-group">
+	
+		<select class="form-control form-control-sm" name="fk_crop_id" ngModel #fk_crop_id="ngModel"  placeholder="Select Crop" [(ngModel)]="selectedFarmer.fk_crop_id">
+			<option value="">Select Crop</option>
+			<option *ngFor="let crop of cropList" value="{{crop.crop_id}}" [selected]="selectedFarmer.fk_crop_id==crop.crop_id">{{crop.crop_name}}</option>
+		</select>
+  	</div>
+  	
+  	<div class="form-group">
+		
+			<input type="text" class="form-control form-control-sm" name="acarage"  ngModel #acarage="ngModel" placeholder="Select Acarage" [(ngModel)]="selectedFarmer.acarage">
+  	</div>
+  	
+  	<div class="form-group">
+		
+		<select class="form-control form-control-sm" name="follow_up" ngModel #follow_up="ngModel" placeholder="Follow Up Status" [(ngModel)]="selectedFarmer.follow_up">
+			<option value="" [selected]="selectedFarmer.follow_up==''">Follow Up</option>
+			<option value="Yes" [selected]="selectedFarmer.follow_up=='Yes'">Yes</option>
+			<option value="No" [selected]="selectedFarmer.follow_up=='No'">No</option>
+		</select>
+		
+  	</div>
+  	
+  	<div class="form-group" [hidden]="selectedFarmer.follow_up=='No'">
+		
+		<!--	<input type="text" class="form-control form-control-sm" name="follow_up_date" id="follow_up_date" placeholder="Follow Up Date" #follow_up_date="ngModel" ngModel bsDatepicker [(bsValue)]="newValue" value="{{ newValue | date:'yyyy-MM-dd' }}" autocomplete="off"> -->
+		
+		<input type="text" class="form-control form-control-sm" name="follow_up_date" id="follow_up_date" placeholder="Follow Up Date:YYYY-mm-dd" #follow_up_date="ngModel" ngModel  autocomplete="off" [(ngModel)]="selectedFarmer.follow_up_date"> 
+  	</div>
+    
+    
+  	<div class="col-sm-7">
+
+    	 <button type="submit" [disabled]="!farmerForm.form.valid" class="btn btn-success">Submit</button>
+  	</div>
+  
+     
+
+    </form>
+</div>
+  </div>
+</ng-template>
+  
+
+  
+  
+  
+  
+ </div>
+
+<div class="container" *ngIf="openTab=='DEALER'">
+  <h5>Dealer Record  <button class="btn btn-primary btn-sm" (click)="addFarmerRecord(template1)" style="float:right">New </button></h5>
+            
+  <table class="table table-bordered table-sm" style="text-align: center">
+    <thead>
+      <tr class="alert alert-danger">
+       <th>Id</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!--
+     <tr *ngFor="let emp1 of pagedItems;let i = index" [attr.data-index]="i">
+		  <td>{{(pager.currentPage-1)*10+i+1}}</td>
+		  <td>{{emp1.user_name}}</td>
+		  <td>{{emp1.user_mobile_no}}</td>
+		  <td><a (click)="selectData(emp1,template)">View</a>&nbsp; | &nbsp;
+		  <a (click)="RemoveEmployee(emp1.user_id)">Delete</a></td>
+
+		</tr>
+     -->
+    </tbody>
+  </table>
+ </div>
+
+<div class="container" *ngIf="openTab=='EXPENCE'">
+  <h5>Expence Record  <button class="btn btn-primary btn-sm" (click)="addFarmerRecord(template1)" style="float:right" >New </button></h5>
+            
+  <table class="table table-bordered table-sm" style="text-align: center">
+    <thead>
+      <tr class="alert alert-danger">
+       <th>Id</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!--
+     <tr *ngFor="let emp1 of pagedItems;let i = index" [attr.data-index]="i">
+		  <td>{{(pager.currentPage-1)*10+i+1}}</td>
+		  <td>{{emp1.user_name}}</td>
+		  <td>{{emp1.user_mobile_no}}</td>
+		  <td><a (click)="selectData(emp1,template)">View</a>&nbsp; | &nbsp;
+		  <a (click)="RemoveEmployee(emp1.user_id)">Delete</a></td>
+
+		</tr>
+     -->
+    </tbody>
+  </table>
+ </div>
+ 
+

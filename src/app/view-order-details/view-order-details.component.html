@@ -1,0 +1,41 @@
+<table width="50%" border="1" style="border-collapse: collapse;" >
+	  <tbody>
+		<tr bgcolor="#000000" style="color: white;padding: 10px">
+		  <td>Id</td>
+		  <td>Product Name</td>
+		  <td>Company Name</td>
+		   <td>Qty</td>
+		   <td>Rate</td>
+		    <td>Total</td>
+		 
+		</tr>
+	
+      			
+		<tr *ngFor="let tc of selectedRecord;let i = index" [attr.data-index]="i">
+		  <td>{{i+1}}</td>
+		  <td>{{tc.product_name}}</td>
+		  <td>{{tc.comp_name}}</td>
+		  <td>{{tc.cod_qty}}</td>
+		  <td>{{tc.cod_rate}}</td>
+		  <td>{{tc.cod_rate * tc.cod_qty}}</td>
+		 
+
+		</tr>
+		
+		<tr>
+		  
+		  <td colspan="5" align="right">Final Total</td>
+		    <td  align="left">{{get_total()}}</td>
+		</tr>
+   
+   		<tr *ngIf="selectedRecord?.lenght < 0">
+		  <td colspan="7">{{msg}}</td>
+		 
+		</tr>
+    
+    		
+
+    </tbody>
+    
+     
+  </table>

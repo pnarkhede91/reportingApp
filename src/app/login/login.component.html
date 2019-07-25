@@ -1,0 +1,73 @@
+
+<!-- <form action="" method="post" (ngSubmit)="onSubmit($event)">
+ {{lastname}}
+ 
+
+ <table width="400" border="1" style="border-collapse: collapse;background-color:darkslategray;padding: 10px;margin-top: 20%;margin-left: 40%">
+  <tbody>
+    <tr>
+      <td colspan="2" align="center">login Form</td>
+      
+    </tr>
+  <tr>
+      <td>User Name</td>
+      <td><input type="text" /></td>
+    </tr>
+    
+    <tr>
+      <td>Password</td>
+      <td><input type="password" /></td>
+	  </tr>
+    
+     <tr>
+		 <td colspan="2" align="center"><button type="submit">Login</button></td>
+      
+    </tr>
+     
+      </tbody>
+</table>
+
+</form>
+-->
+
+<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-heading">
+				<h2 class="text-center">Login</h2>
+			</div>
+			<hr />
+			<div class="modal-body">
+			{{lastname}}
+				<form action="" role="form" method="post" (ngSubmit)="onSubmit($event)">
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon">
+							<span class="glyphicon glyphicon-user"></span>
+							</span>
+							<input type="text" class="form-control" placeholder="User Name" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon">
+							<span class="glyphicon glyphicon-lock"></span>
+							</span>
+							<input type="password" class="form-control" placeholder="Password" />
+
+						</div>
+
+					</div>
+
+					<div class="form-group text-center">
+						<button type="submit" class="btn btn-success btn-lg">Login</button>
+						<a href="#" class="btn btn-link">forget Password</a>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+    

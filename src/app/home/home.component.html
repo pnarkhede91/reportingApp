@@ -1,0 +1,104 @@
+
+
+
+
+
+
+<h3>Welcome {{loginName}}</h3>
+ <!--
+<div *ngIf="isValid else other_content">
+    content here ...
+</div>
+
+<ng-template #other_content>other content here...</ng-template>
+<div *ngIf="isValid;then content1 else other_content1">here is ignored</div>    
+<ng-template #content1>content here...</ng-template>
+<ng-template #other_content1>other content here...</ng-template>
+
+<div class="container">
+
+  <div class="col-sm-3">
+  
+	  <div class="card bg-primary text-white">
+		<div class="card-body">Primary card</div>
+	  </div>
+	  
+ </div>
+ <div class="col-sm-3">
+  
+	  <div class="card bg-success text-white">
+    <div class="card-body">Success card</div>
+  </div>
+	  
+ </div>
+ <div class="col-sm-3">
+  
+	   <div class="card bg-info text-white">
+    <div class="card-body">Info card</div>
+  </div>
+	  
+ </div>
+ <div class="col-sm-3">
+  
+	 <div class="card bg-warning text-white ">
+    <div class="card-body">Warning card</div>
+  </div>
+	  
+ </div>
+  
+  
+ 
+
+  
+ 
+</div>
+-->
+<form #fileid="ngForm" (ngSubmit)="uploadFile(fileid)">
+
+
+    <select class="form-control form-control-sm" placeholder="Select District" name="dt_id" [(ngModel)]="dt_id1"  >
+        <option value="1">Select District1</option>
+        <option value="2">Select District2</option>
+        <option value="3">Select District3</option>
+        <option value="4">Select District4</option>
+        <option value="5">Select District5</option>
+     
+      </select>
+
+      <select class="form-control form-control-sm" placeholder="Select District" name="dt_id1" [(ngModel)]="dt_id2"  >
+          <option value="1">Select District1</option>
+          <option value="2">Select District2</option>
+          <option value="3">Select District3</option>
+          <option value="4">Select District4</option>
+          <option value="5">Select District5</option>
+       
+        </select>
+
+        <select class="form-control form-control-sm" placeholder="Select District" name="dt_id2" [(ngModel)]="dt_id3"  >
+            <option value="1">Select District1</option>
+            <option value="2">Select District2</option>
+            <option value="3">Select District3</option>
+            <option value="4">Select District4</option>
+            <option value="5">Select District5</option>
+         
+          </select>
+
+
+
+<input type="file" name="ufile" #ufile1 [(ngModel)]="ufile" (change)="fileChanged($event)"/>
+ <input type="submit" value="upload photo" />
+{{imgFile}}
+</form>
+
+<img src="{{imgUrl}}" />
+
+<div *ngxPermissionsOnly="['ADMIN', 'GUEST']">
+    <div>You can see this text congrats</div>
+</div>
+<ng-template ngxPermissionsOnly="ADMIN">
+  <div>You can see this text congrats</div>
+ </ng-template>
+ <ng-template [ngxPermissionsExcept]="['ADMIN', 'GUEST']">
+   <div> All will see it except JOHNY</div>
+ </ng-template>
+ 

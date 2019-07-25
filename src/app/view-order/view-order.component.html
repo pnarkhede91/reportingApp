@@ -1,0 +1,196 @@
+
+ <div class="container">
+      <!--
+        <div class="row">
+            <div class="col-md-12" style="background-color:#D4EDDA;">
+             
+
+   					<h4>Search</h4>
+					<form #searchData="ngForm" (ngSubmit)="searchDataFilter(searchData)" novalidate>
+						  <div class="col-md-4">
+						  	
+						  		 <div class="form-group">
+
+										<input class="form-control" id="inputdefault" placeholder="Customer Name" type="text" name="cname" ngModel #cname="ngModel" autocomplete="off">
+							  	</div>
+
+						  </div>
+  
+						  <div class="col-md-4">
+						  
+						  	<div class="form-group">
+
+								<input class="form-control" id="inputdefault" placeholder="Mobile Number" type="text" name="cmobile" ngModel #cmobile="ngModel" autocomplete="off">
+								
+							</div>
+
+						  </div>
+  
+						  <div class="col-md-4">
+								 
+							<div class="form-group">
+
+								 <input class="btn btn-primary"  value="Search" type="submit"> &nbsp;&nbsp;&nbsp;
+								 
+							  </div>
+
+						  </div>
+					</form>
+
+               
+            </div>
+     
+        </div>
+        -->
+        
+     
+        <div class="row">
+        
+        	<div class="col-md-12">
+        			
+        			<table class="table table-bordered">
+					<thead>
+					  <tr>
+						<th>Id</th>
+						<th>OrdId</th>
+						<th>Customer Name</th>
+						<th>Mobile</th>
+						<th>Order Status</th>
+						<th>Date</th>
+						<th>Action</th>
+					  </tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let emp1 of pagedItems;let i = index" [attr.data-index]="i">
+						  <td>{{(pager.currentPage-1)*10+i+1}}</td>
+						  <td>ord{{emp1.co_id}}</td>
+						  <td>{{emp1.co_name}}</td>
+						  <td>{{emp1.co_mobile}}</td>
+						  <td>{{emp1.co_status}}</td>
+						  <td>{{emp1.co_date}}</td>
+						  <td><a (click)="viewOrder(emp1.co_id)">View</a>&nbsp; | &nbsp;
+						  <a (click)="RemoveEmployee(emp1.user_id)">Delete</a></td>
+
+						</tr>
+					</tbody>
+				  </table>
+       		
+       				<ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+							<li [ngClass]="{disabled:pager.currentPage === 1}">
+								<a (click)="setPage(1)">First</a>
+							</li>
+							<li [ngClass]="{disabled:pager.currentPage === 1}">
+								<a (click)="setPage(pager.currentPage - 1)">Previous</a>
+							</li>
+							<li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+								<a (click)="setPage(page)">{{page}}</a>
+							</li>
+							<li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+								<a (click)="setPage(pager.currentPage + 1)">Next</a>
+							</li>
+							<li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+								<a (click)="setPage(pager.totalPages)">Last</a>
+							</li>
+    				</ul>
+       		<ul class="pagination">
+  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+  <li class="page-item"><a class="page-link" href="#">1</a></li>
+  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+  <li class="page-item"><a class="page-link" href="#">3</a></li>
+  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+</ul>
+        		
+        	</div>
+        	
+        	<div class="col-md-6">
+        	
+				<div *ngIf="showDetails">
+						<app-view-order-details [selectedRecord]="selectedRecord" ></app-view-order-details>
+				</div>
+        		
+        		
+        	</div>
+        	
+        </div>
+</div>
+
+
+
+<br>
+
+<footer class="container-fluid text-center">
+  <p>Footer Text</p>
+</footer>
+<!--
+<div style="float:left;width: 50%">
+ 
+
+  
+<div class="form-group col-sm-12" style="background-color:#D4EDDA;padding:10px;">
+
+   <h4>Search</h4>
+<form #searchData="ngForm" (ngSubmit)="searchDataFilter(searchData)" novalidate>
+  <div class="col-sm-4">
+    
+ 		<input class="form-control-sm" id="inputdefault" placeholder="Customer Name" type="text" name="cname" ngModel #cname="ngModel" autocomplete="off">
+ 		
+  </div>
+  
+  <div class="col-sm-4">
+   
+    	<input class="form-control-sm" id="inputdefault" placeholder="Mobile Number" type="text" name="cmobile" ngModel #cmobile="ngModel" autocomplete="off">
+    	
+  </div>
+  
+  <div class="col-sm-4">
+  
+		 <input class="form-control-sm" id="inputdefault" value="Search" type="submit"> &nbsp;&nbsp;&nbsp;
+		
+  </div>
+	</form>
+</div>
+
+
+  <table width="100%" border="1" style="border-collapse: collapse;" >
+	  <tbody>
+		<tr bgcolor="#000000" style="color: white;padding: 10px">
+		  <td>Id</td>
+		  <td>OrdId</td>
+		  <td>Customer Name</td>
+		  <td>Mobile</td>
+		  <td>Order Status</td>
+		  <td>Date</td>
+		  <td>Action</td>
+
+		</tr>
+	
+		<tr *ngFor="let emp1 of pagedItems;let i = index" [attr.data-index]="i">
+		  <td>{{(pager.currentPage-1)*10+i+1}}</td>
+		  <td>ord{{emp1.co_id}}</td>
+		  <td>{{emp1.co_name}}</td>
+		  <td>{{emp1.co_mobile}}</td>
+		  <td>{{emp1.co_status}}</td>
+		  <td>{{emp1.co_date}}</td>
+		  <td><a (click)="viewOrder(emp1.co_id)">View</a>&nbsp; | &nbsp;
+		  <a (click)="RemoveEmployee(emp1.user_id)">Delete</a></td>
+
+		</tr>
+
+    </tbody>
+  </table>
+
+	
+            
+</div>
+<div *ngIf="showDetails">
+<app-view-order-details [selectedRecord]="selectedRecord" ></app-view-order-details>
+</div>
+
+-->
+
+
+
+
+
+
+

@@ -1,0 +1,227 @@
+
+<div style="float:left;width: 50%">
+ 
+
+  
+<div class="form-group col-sm-12" style="background-color:#D4EDDA;padding:10px;">
+
+   <h4>Search</h4>
+	<form #searchData="ngForm" (ngSubmit)="searchDataFilter(searchData)" novalidate>
+		  <div class="col-sm-4">
+
+				<input class="form-control-sm" id="inputdefault" placeholder="Staff Name" type="text" name="cname" ngModel #cname="ngModel" autocomplete="off">
+
+		  </div>
+
+		  <div class="col-sm-4">
+
+				<input class="form-control-sm" id="inputdefault" placeholder="Staff Mobile" type="text" name="cmobile" ngModel #cmobile="ngModel" autocomplete="off">
+
+		  </div>
+
+		  <div class="col-sm-3">
+
+				 <input class="form-control-sm" id="inputdefault" value="Search" type="submit"> &nbsp;&nbsp;&nbsp;
+				  <input class="form-control-sm" id="inputdefault" value="New" type="button" (click)="new_staff_add(template1)"> &nbsp;&nbsp;&nbsp;
+
+		  </div>
+	</form>
+</div>
+
+
+  <table width="100%" border="1" style="border-collapse: collapse;" class="table table-bordered table-sm">
+	  <tbody>
+		<tr bgcolor="#000000" style="color: white;padding: 10px">
+		  <td>Id</td>
+		  <td>First Name</td>
+		  <td>Mobile</td>
+		  <td>Email</td>
+		  <td>Action</td>
+
+		</tr>
+		
+		
+		<tr *ngFor="let emp1 of pagedItems;let i = index" [attr.data-index]="i">
+		  <td>{{(pager.currentPage-1)*10+i+1}}</td>
+		  <td>{{emp1.emp_name}}</td>
+		  <td>{{emp1.emo_mobile}}</td>
+		  <td>{{emp1.emp_email}}</td>
+		  <td><a (click)="updateData(emp1,template)">Edit</a>&nbsp; | &nbsp;
+		  <a (click)="RemoveStaff(emp1.emp_id)">Delete</a></td>
+
+		</tr>
+
+    </tbody>
+  </table>
+
+	<ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(1)">First</a>
+                </li>
+                
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                </li>
+                
+                <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                    <a (click)="setPage(page)">{{page}}</a>
+                </li>
+                
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.totalPages)">Last</a>
+                </li>
+     </ul>
+            
+</div>
+ 
+ 
+ <ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Update Details</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+  <div class="container ">
+
+ 	  <form #data="ngForm" (ngSubmit)="editNewStaff(data,template)" >
+    <div class="row col-sm-7">
+    	
+    	 <div class="form-group col-sm-5">
+    	<label for="email">Name:</label>
+    	<input type="text" class="form-control" name="emp_name" id="emp_name"  [(ngModel)]="selectedRecord.emp_name"  required autocomplete="off">
+    	
+    		<input type="hidden" class="form-control" name="emp_id" id="emp_id"  [(ngModel)]="selectedRecord.emp_id"  required autocomplete="off">
+    	
+  	</div>
+ 
+		
+    <div class="form-group col-sm-5">
+    	<label for="email">Email :</label>
+    	<input type="text" class="form-control" name="emp_email" id="emp_email" #emp_email="ngModel" [(ngModel)]="selectedRecord.emp_email" autocomplete="off">
+  	</div>
+  	
+  	<div class="form-group col-sm-5">
+    	<label for="email">Mobile:</label>
+    	<input type="text" class="form-control" name="emo_mobile" id="emo_mobile" #emo_mobile="ngModel" [(ngModel)]="selectedRecord.emo_mobile"  autocomplete="off">
+    	
+  	</div>
+  	
+  	 <div class="form-group col-sm-5">
+    	<label for="email">Password:</label>
+    	<input type="text" class="form-control" name="emp_pass" id="emp_pass" #emp_pass="ngModel" [(ngModel)]="selectedRecord.emp_pass" autocomplete="off">
+  	</div>
+		
+    <div class="form-group col-sm-5">
+    	<label for="email">Birth Date :</label>
+    	<input type="text" class="form-control" name="emp_birth_date" id="emp_birth_date" #emp_birth_date="ngModel" [(ngModel)]="selectedRecord.emp_birth_date" bsDatepicker [bsConfig]="{dateInputFormat: 'YYYY-MM-DD'}"  autocomplete="off">
+  	</div>
+  	<!--[(bsValue)]="newValue" value="{{ newValue | date:'yyyy-MM-dd' }}" -->
+  	<div class="form-group col-sm-5">
+    	<label for="email">Address:</label>
+    
+    	<textarea class="form-control"  name="emp_add" id="emp_add" #emp_add="ngModel" [(ngModel)]="selectedRecord.emp_add" ></textarea>
+  	</div>
+  	
+  	
+  	<div class="col-sm-7">
+   
+    	 <button type="submit" class="btn btn-success">Submit</button>
+  	</div>
+    	
+    	
+    </div>
+   
+  
+     
+
+    </form>
+	  </div>
+  </div>
+</ng-template>
+<!--
+<div class="row">
+  <div class="col-xs-12 col-12 col-md-4 form-group">
+    <input type="text"
+           placeholder="Datepicker"
+           class="form-control"
+           bsDatepicker>
+  </div>
+
+-->
+
+
+
+ <ng-template #template1>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">New Staff</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef1.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container ">
+ 
+    <form #data="ngForm" (ngSubmit)="addNewStaff(data,template1)" >
+    <div class="row col-sm-7">
+    	
+    	 <div class="form-group col-sm-5">
+    	<label for="email">Name:</label>
+    	<input type="text" class="form-control" name="emp_name" id="emp_name" ngModel #emp_name="ngModel" value=""  required autocomplete="off">
+    	<div *ngIf="emp_name.touched && emp_name.errors?.required">mendatory</div>
+  	</div>
+ 
+		
+    <div class="form-group col-sm-5">
+    	<label for="email">Email :</label>
+    	<input type="text" class="form-control" name="emp_email" id="emp_email" #emp_email="ngModel" ngModel autocomplete="off">
+  	</div>
+  	
+  	<div class="form-group col-sm-5">
+    	<label for="email">Mobile:</label>
+    	<input type="text" class="form-control" name="emo_mobile" id="emo_mobile" #emo_mobile="ngModel" ngModel  autocomplete="off">
+    	
+  	</div>
+  	
+  	 <div class="form-group col-sm-5">
+    	<label for="email">Password:</label>
+    	<input type="text" class="form-control" name="emp_pass" id="emp_pass" #emp_pass="ngModel" ngModel autocomplete="off">
+  	</div>
+		
+    <div class="form-group col-sm-5">
+    	<label for="email">Birth Date :</label>
+    	<input type="text" class="form-control" name="emp_birth_date" id="emp_birth_date" #emp_birth_date="ngModel" ngModel bsDatepicker [(bsValue)]="newValue" value="{{ newValue | date:'yyyy-MM-dd' }}" autocomplete="off">
+  	</div>
+  	
+  	<div class="form-group col-sm-5">
+    	<label for="email">Address:</label>
+    
+    	<textarea class="form-control"  name="emp_add" id="emp_add" #emp_add="ngModel" ngModel></textarea>
+  	</div>
+  	
+  	
+  	<div class="col-sm-7">
+   
+    	 <button type="submit" class="btn btn-success">Submit</button>
+  	</div>
+    	
+    	
+    </div>
+   
+  
+     
+
+    </form>
+</div>
+  </div>
+</ng-template>
+
+
+
+
+
+
